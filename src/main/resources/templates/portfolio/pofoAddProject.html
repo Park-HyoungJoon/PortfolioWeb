@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+
+<th:block layout:fragment="content">
+	<style>
+.form-label {
+	margin-top: 5px;
+}
+
+h4, label {
+	color: white;
+}
+
+p {
+	color: black;
+}
+
+input[type='text'] {
+	margin-top: 5px;
+}
+
+.btn {
+	color: white;
+}
+
+.carousel-control .left {
+	margin-left: -25px;
+}
+
+.carousel-control .right {
+	margin-right: -25px;
+}
+
+.submitBtn {
+	display: block;
+	margin-top: 10px;
+	float: right;
+}
+</style>
+		<div class="row">
+	<div class="col-9">
+		<form id="uploadPortfolio" name="uploadPortfolio"
+			th:action="@{/pofo/project/add}" method="post" enctype="multipart/form-data"
+			novalidate>
+			<input type="hidden" th:value="${portfolio.getId()}" name="pofoId"/>
+			<div class="row">
+				<div class="frm">
+					<div id='profile-uploadProject' style="margin: auto;">
+						<div class="hvr-profile-img">
+							<input type="file" name="projectImage" class="upload" id="getval">
+							<input type="hidden" id="preImageRoot">
+							<div class="icon">
+								<div class="camera4">
+									<span></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="display: block;">
+			<div class="col-2" style="right:0; margin-top:15px;">
+				<input type="hidden" id="projectInfoHidden" name="projectInfoHidden">
+				<input type="submit" class="submitBtn" value="업로드"> <input
+					type="hidden" value="0" id="fileCount">
+					</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-3">
+		<input type="hidden" id="divide1" name="divide1"
+			th:value="${projectIds}">
+		<div th:each="vo,status : ${projectIds}">
+			<div class="list-group list-group-flush scrollarea">
+				<div class="row">
+				<div class="col">
+					<a th:href="'/portfolio/projectEdit/'+${vo}"
+						class="btn btn-outline-light"
+						 th:text="'프로젝트' + ${status.index+1}" style="width:100px;"></a></div>
+						<div class="col"> 
+						<a
+						th:href="'/portfolio/projectdelete/'+${vo}" type="button"
+						class="btn btn-outline-danger">삭제</a></div>
+						</div>
+			</div>
+		</div>
+		<a type="button" class="btn"
+			th:href="'/portfolio/projectAdd/'+${portfolio.getId()}">차시 추가</a>
+	</div>
+</div>
+	<button id="modalAct" style="display: none" class="createbtn"
+		data-bs-toggle="modal" data-bs-target="#modal3"></button>
+
+	<!-- 모달끝 -->
+	<!-- 회원가입 모달 시작 -->
+	<div id="modal3" class="modal fade">
+		<div class="modal-dialog" role="document" style="margin-left: -0.2px;">
+			<div class="modal-content landingpage rounded-5 box"
+				style="width: 1200px;">
+				<div class="modal-header p-5 pb-4 border-bottom-0">
+					<!-- <h5 class="modal-title">Modal title</h5> -->
+					<h2 class="fw-bold mb-0">상세정보 작성</h2>
+				</div>
+
+				<div class="modal-body"
+					style="width: 100%; height: 100px; overflow: inherit;">
+					<div class="row">
+						<div class="col-6">
+							<div class="form-group">
+								<div id='profile-uploadProject2'
+									style="margin: auto; width: 400px; height: 400px;">
+									<div class="hvr-profile-img"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="form-group" style="width: 400px; height: 500px;">
+								<textarea name="content" id="comment">
+                         </textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-3" style="right: 0;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 모달끝 -->
+
+
+	<script>
+$(function () {
+	let imgRoot = $("#preImageRoot").val();
+	console.log(imgRoot);
+
+    	document.getElementById('profile-upload').style.backgroundImage = "url('"+'/images/'+ imgRoot + "')";            
+
+})
+</script>	
+
+	<script>
+    let editor = [];
+    ClassicEditor
+        .create(document.querySelector('#comment'))
+        .then(newEditor => {
+            editor[0] = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    </script>
+
+	<!-- image 업로드 -->
+	<script>
+		
+    document.getElementById('getval').addEventListener('change', readURL, true);
+
+    function readURL(){
+        var file = document.getElementById("getval").files[0];
+        var reader = new FileReader();
+        reader.onloadend = function(){
+            document.getElementById('profile-uploadProject').style.backgroundImage = "url(" + reader.result + ")";
+            var image = new Image();
+            
+            document.getElementById('profile-uploadProject2').style.backgroundImage = "url(" + reader.result + ")";
+            $('#fileCount').val(1);
+        }
+        if(file){
+            reader.readAsDataURL(file);
+        }else{
+        }
+        $("#getval").change(function(){
+        	  document.getElementById('modalAct').click();
+        });
+    }
+
+    </script>
+
+	<script th:inline="javascript">
+        $("#uploadPortfolio").submit(function (event) {
+            event.preventDefault();
+            let lectureDivideInfo = $("#comment").val();
+            $('projectInfoHidden').val(lectureDivideInfo);
+            this.submit();
+        })
+    </script>
+</th:block>
+</html>

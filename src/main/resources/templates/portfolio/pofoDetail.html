@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<div layout:fragment="content">
+	<style>
+.row p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.slick-prev:before {
+	content: "<";
+	color: white;
+	font-size: 30px;
+}
+
+.slick-next:before {
+	content: ">";
+	color: white;
+	font-size: 30px;
+}
+</style>
+	<!-- stlye 은 slick 영역 확인용 -->
+
+	<div class="slide-container shadow_effect">
+		<div class="wrapper" style="height: 500px;">
+			<div class="clash-card barbarian">
+				<div class="clash-main">
+					<div class="row" style="text-align: center;">
+						<nav class="selectedlink" th:text="${portfolio.getPofoTitle()}"></nav>
+					</div>
+					<div class="row">
+						<div class="col-3"
+							style="margin-top: 30px; margin-bottom: 30px; margin-left: 40px;">
+							<!-- 사람 이미지 -->
+							<div class="frm">
+								<div id='profile-upload' class="shadow_hov_effect">
+									<input type="hidden" id="preImageRoot"
+										th:value="${portfolio.getMember().getMemberImageRoot()}">
+
+								</div>
+							</div>
+						</div>
+
+						<div class="col-3" style="margin-top: 50px; margin-left: -60px;">
+							<p th:utext=${portfolio.getComment()}>
+						</div>
+						<div class="info_tmi col-2" style="float: none; margin: 0 auto;">
+							<div class="row shadow_hov_effect"
+								style="min-height: 138px; max-height: 138px;">
+								<nav class="selectedlink"
+									th:text="${portfolio.getMember().getName()}"></nav>
+							</div>
+							<div class="row shadow_hov_effect"
+								style="min-height: 138px; max-height: 138px;">
+								<nav class="selectedlink">학교</nav>
+								<p th:text="${portfolio.getMember().getSchool()}" />
+							</div>
+							<div class="row shadow_hov_effect"
+								style="min-height: 138px; max-height: 138px;">
+								<nav class="selectedlink">전공</nav>
+								<p th:text="${portfolio.getMember().getSchoolSection()}" />
+							</div>
+						</div>
+						<div class="info_tmi col-2" style="float: none; margin: 0 auto;">
+							<div class="row shadow_hov_effect"
+								style="min-height: 138px; max-height: 138px;">
+								<nav class="selectedlink">자격증</nav>
+								<div th:if="${#lists.size(licenses)}>0"
+									th:each="vo, status:${licenses}">
+									<p th:text="${vo}">
+								</div>
+							</div>
+							<div class="row shadow_hov_effect"
+								style="min-height: 138px; max-height: 138px; text-overflow: ellipsis;">
+								<nav class="selectedlink">수상경력</nav>
+								<div th:if="${#lists.size(careers)}>0"
+									th:each="vo, status:${careers}">
+									<p th:text="${vo}">
+								</div>
+							</div>
+							<div class="row shadow_hov_effect"
+								style="min-height: 138px; max-height: 138px; text-overflow: ellipsis;">
+								<nav class="selectedlink">기술</nav>
+								<div th:if="${#lists.size(skills)}>0"
+									th:each="vo, status:${skills}">
+									<p th:text="${vo}">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end clash-card archer-->
+		</div>
+ 		<div class="wrapper" style="height: 500px;"
+			th:if="${#lists.size(projects)} > 0"
+			th:each="vo,status : ${projects}">
+			<div class="clash-card barbarian">
+				<div class="clash-main">
+					<div class="row">
+						<div class="frm">
+							<div id='profile-uploadProject' style="margin: auto;">
+								<div class="hvr-profile-img">
+									<img th:src="'/images/'+${vo.getProjectImageRoot()}"
+										style="width: 700px; height: 400px;" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button id="modalAct" style="display: none" class="createbtn"
+				data-bs-toggle="modal" th:data-bs-target="'#modal'+${status}"></button>
+
+			모달끝
+			회원가입 모달 시작
+			<div th:id="'modal'+${status}" class="modal fade">
+				<div class="modal-dialog" role="document"
+					style="margin-left: -0.2px;">
+					<div class="modal-content landingpage rounded-5 box"
+						style="width: 1200px;">
+						<div class="modal-header p-5 pb-4 border-bottom-0">
+							<h5 class="modal-title">Modal title</h5>
+							<h2 class="fw-bold mb-0">상세정보 작성</h2>
+						</div>
+
+						<div class="modal-body"
+							style="width: 100%; height: 100px; overflow: inherit; text-overflow: ellipsis;">
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										<img th:src="'/images/'+${vo.getProjectImageRoot()}"
+											style="width: 700px; height: 400px;" />
+									</div>
+								</div>
+								<div class="col-3">
+									<div class="form-group" style="width: 400px; height: 500px;">
+										<dd th:utext="${vo.getProjectComment()}" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-3" style="right: 0;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div> 
+		
+	</div>
+	<!-- end clash-card archer-->
+<!-- end wrapper -->
+
+<!-- end container -->
+
+<!--slick end-->
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+	crossorigin="anonymous"></script>
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript">
+	$.noConflict();
+</script>
+
+<script>
+	$(function() {
+		let imgRoot = $("#preImageRoot").val();
+		console.log(imgRoot);
+
+		document.getElementById('profile-upload').style.backgroundImage = "url('" + '/images/' + imgRoot + "')";
+
+	})
+</script>
+<script th:inline="javascript">
+	$(document)
+			.ready(
+					function() {
+
+						let count = 0;
+
+						var slideContainer = $('.slide-container');
+
+						slideContainer
+								.slick({
+									slide : 'div', //슬라이드 되어야 할 태그 ex) div, li
+									infinite : true, //무한 반복 옵션
+									slidesToScroll : 1, //스크롤 한번에 움직일 컨텐츠 개수
+									speed : 100, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+									arrows : true, // 옆으로 이동하는 화살표 표시 여부
+									dots : true, // 스크롤바 아래 점으로 페이지네이션 여부
+									autoplay : false, // 자동 스크롤 사용 여부
+									pauseOnHover : true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+									prevArrow : "<button type='button' class='slick-prev'>Previous</button>", // 이전 화살표 모양 설정
+									nextArrow : "<button type='button' class='slick-next'>Next</button>", // 다음 화살표 모양 설정
+									dotsClass : "slick-dots", //아래 나오는 페이지네이션(점) css class 지정
+									draggable : true, //드래그 가능 여부
+								});
+
+						$('.clash-card__image img').hide();
+						$('.slick-active').find('.clash-card img').fadeIn(200);
+
+						// On before slide change
+						slideContainer.on('beforeChange', function(event,
+								slick, currentSlide, nextSlide) {
+							$('.slick-active').find('.clash-card img').fadeOut(
+									1000);
+
+						});
+
+						// On after slide change
+						slideContainer.on('afterChange', function(event, slick,
+								currentSlide) {
+							$('.slick-active').find('.clash-card img').fadeIn(
+									200);
+						});
+					})
+</script>
+
+</div>
+</html>

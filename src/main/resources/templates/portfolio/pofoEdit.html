@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+
+<th:block layout:fragment="content">
+	<style>
+	.form-label {
+		margin-top:5px;
+	}
+h4, label {
+	color: white;
+}
+p{
+	color:black;
+}
+
+input[type='text'] {
+	margin-top: 5px;
+}
+
+.btn {
+	color: white;
+}
+
+.carousel-control .left {
+	margin-left: -25px;
+}
+
+.carousel-control .right {
+	margin-right: -25px;
+}
+
+.submitBtn {
+	display: block;
+	margin-top: 10px;
+	float: right;
+}
+</style>
+	<form id="uploadPortfolio" name="uploadPortfolio"
+		th:action="@{/pofo/add}" method="post" enctype="multipart/form-data" 
+		th:object="${pofoAddDto}" novalidate>
+		<div class="row">
+		<input type="hidden" name="existPofo" th:value="${ExistPofo}"/>
+			<label for="pofoTitle" class="form-label">포트폴리오 제목</label> <input
+				type="text" class="form-control" name="pofoTitle" placeholder=""
+				th:value="${portfolio.getPofoTitle()}">
+		</div>
+		<div class="row g-3" style="margin-top: 30px; margin-bottom:30px;">
+			<div class="col-sm-4">
+				<!-- 사람 이미지 -->
+				<div class="frm">
+					<div id='profile-upload'>
+						<div class="hvr-profile-img">
+							<input type="file" name="memberImage"  class="upload" id="getval">
+							<input type="hidden" id="preImageRoot" th:value="${member.getMemberImageRoot()}">
+							<div class="icon">
+								<div class="camera4">
+									<span></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class="row">
+					<label for="name" class="form-label">이름</label> <input type="text"
+						class="form-control" name="name" th:value="${member.getName()}"> 
+					<div class="invalid-feedback">Valid last name is required.</div>
+				</div>
+				<div class="row">
+					<label for="school" class="form-label">학교</label> <input
+						type="text" class="form-control" name="school" id="school"
+						placeholder="" value="" required="" th:value="${member.getSchool()}">
+					<div class="invalid-feedback">Valid school is required.</div>
+				</div>
+				<div class="row">
+					<label for="schoolSection" class="form-label">전공</label> <input
+						type="text" class="form-control" id="schoolSection"
+						name="schoolSection" th:value="${member.getSchoolSection()}">
+					<div class="invalid-feedback">Valid school part is required.</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4">
+				<label for="license" class="form-label">자격증</label>
+				<button type="button" onclick="addFile1();" id="testbtn"
+					class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+				</button>
+				<div class="input-group has-validation">
+					<input type="text" class="form-control" name="license"
+						placeholder="자격증" required="">
+					<div class="invalid-feedback">Your username is required.</div>
+				</div>
+				<div id="accordionExample1"></div>
+			</div>
+
+			<div class="col-4">
+				<label for="career" class="form-label">수상경력</label>
+				<button type="button" onclick="addFile2();"
+					class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+				</button>
+				<input type="text" class="form-control" name="career"
+					placeholder="수상경력">
+				<div class="invalid-feedback">Please enter a valid email
+					address for shipping updates.</div>
+				<div id="accordionExample2"></div>
+			</div>
+			<div class="col-4">
+				<label for="skill" class="form-label">스킬</label>
+				<button type="button" onclick="addFile3();"
+					class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+				</button>
+				<input type="text" class="form-control" id="skill" name="skill"
+					placeholder="스킬">
+				<div id="accordionExample3"></div>
+			</div>
+
+		</div>
+		<div class="row">
+
+			<div class="col-12">
+				<label for="comment" class="form-label">자유멘트</label>
+                        <div class="form-group">
+                            <textarea name="content" id="comment">
+                         </textarea>
+                        </div>
+			</div>
+		</div>
+		<div class="row">
+
+		</div>
+		<input type="hidden" id="lectureInfoHidden" name="lectureInfoHidden">
+		<input type="hidden" value="1" id="carouselCount"> <input
+			type="hidden" value="1" id="maxNum"> 
+			<input type="submit" class="submitBtn" value="업로드" >
+			
+	</form>
+	<script>
+$(function () {
+	let imgRoot = $("#preImageRoot").val();
+	console.log(imgRoot);
+
+    	document.getElementById('profile-upload').style.backgroundImage = "url('"+'/images/'+ imgRoot + "')";            
+
+})
+</script>
+
+    <script type="text/javascript">
+        $("#uploadPortfolio").submit(function (event) {
+            event.preventDefault();
+            $("#lectureInfoHidden").val(editor[0].getData());
+            this.submit();
+        });
+    </script>
+
+    <script>
+    let editor = [];
+    ClassicEditor
+        .create(document.querySelector('#comment'))
+        .then(newEditor => {
+            editor[0] = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    </script>
+	<script th:inline="javascript"> /*[- 파일 인덱스 처리용 전역 변수 -]*/
+	var carouselConunt = 1;
+	$('#testbtn').on('click', function () {
+		console.log("33");
+	});
+	function addFile1() {
+        for (i = 0; i < 5; i++) {
+            if ($('input#fileCount' + i).val()) {
+                console.log(i, "해당 객체 존재함");
+
+            } else {
+                testCount = i;
+                let fileHtml = `
+					 <input type="text"
+					class="form-control" id="license${testCount}" name="license" placeholder="자격증">
+                `;
+                $("#accordionExample1").append(fileHtml);
+                testCount++;
+                break;
+            }
+        }
+    }
+
+    function addFile2() {
+        for (i = 0; i < 5; i++) {
+            if ($('input#fileCount' + i).val()) {
+                console.log(i, "해당 객체 존재함");
+
+            } else {
+                testCount = i;
+                let fileHtml = `
+					 <input type="text"
+					class="form-control" id="career${testCount}" name="career" placeholder="수상경력">
+                `;
+                $("#accordionExample2").append(fileHtml);
+                testCount++;
+                break;
+            }
+        }
+    }
+
+    function addFile3() {
+        for (i = 0; i < 5; i++) {
+            if ($('input#fileCount' + i).val()) {
+                console.log(i, "해당 객체 존재함");
+
+            } else {
+                testCount = i;
+                let fileHtml = `
+					 <input type="text"
+					class="form-control" id="skill${testCount}" name="skill" placeholder="스킬">
+                `;
+                $("#accordionExample3").append(fileHtml);
+                testCount++;
+                break;
+            }
+        }
+    }
+    function removeFile(elem) {
+
+        const prevTag = $(elem).prev().prop('tagName');
+        console.log(prevTag, elem);
+        if (prevTag === 'BUTTON') {
+            theEditor.setData('');
+            return false;
+        }
+        if (testCount === 0) {
+
+        } else {
+            $(elem).parent().remove();
+        }
+        testCount--;
+    }
+    </script>
+    <!-- image 업로드 -->
+    <script>
+
+    document.getElementById('getval').addEventListener('change', readURL, true);
+
+    function readURL(){
+        var file = document.getElementById("getval").files[0];
+        var reader = new FileReader();
+        reader.onloadend = function(){
+            document.getElementById('profile-upload').style.backgroundImage = "url(" + reader.result + ")";        
+        }
+        if(file){
+            reader.readAsDataURL(file);
+        }else{
+        }
+    }
+
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+
+<th:block layout:fragment="content">
+	<style>
+.carousel-inner {
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+h4, p, label {
+	color: white;
+}
+
+input[type='text'] {
+	margin-top: 5px;
+}
+
+.btn {
+	color: white;
+}
+
+.carousel-control .left {
+	margin-left: -25px;
+}
+
+.carousel-control .right {
+	margin-right: -25px;
+}
+
+.submitBtn {
+	display: block;
+	margin-top: 10px;
+	float: right;
+}
+</style>
+	<div class="carousel_theme">
+		<form id="uploadPortfolio" name="uploadPortfolio"
+			th:action="@{/pofo/add}" method="post" enctype="multipart/form-data"
+			th:object="${pofoAddDto}" novalidate>
+			<div id="carouselExampleControls" class="carousel slide"
+				data-bs-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<div>
+							<div class="row">
+								<label for="pofoTitle" class="form-label">포트폴리오 제목</label> <input
+									type="text" class="form-control" name="pofoTitle">
+							</div>
+							<div class="row g-3">
+								<div class="col-sm-4"></div>
+								<div class="col-sm-8">
+									<div class="row">
+										<label for="name" class="form-label">이름</label> <input
+											type="text" class="form-control" name="name">
+										<div class="invalid-feedback">Valid last name is
+											required.</div>
+									</div>
+									<div class="row">
+										<label for="school" class="form-label">학교</label> <input
+											type="text" class="form-control" name="school" id="school"
+											placeholder="" value="" required="">
+										<div class="invalid-feedback">Valid school is required.</div>
+									</div>
+									<div class="row">
+										<label for="schoolSection" class="form-label">과</label> <input
+											type="text" class="form-control" id="schoolSection"
+											name="schoolSection">
+										<div class="invalid-feedback">Valid school part is
+											required.</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-4">
+										<label for="license" class="form-label">자격증</label>
+										<button type="button" onclick="addFile1();"
+											class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+											<i class="fa fa-plus" aria-hidden="true"></i>
+										</button>
+										<div class="input-group has-validation">
+											<input type="text" class="form-control" name="license"
+												placeholder="자격증" required="">
+											<div class="invalid-feedback">Your username is
+												required.</div>
+										</div>
+										<div id="accordionExample1"></div>
+									</div>
+
+									<div class="col-4">
+										<label for="career" class="form-label">수상경력</label>
+										<button type="button" onclick="addFile2();"
+											class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+											<i class="fa fa-plus" aria-hidden="true"></i>
+										</button>
+										<input type="text" class="form-control" name="career"
+											placeholder="수상경력">
+										<div class="invalid-feedback">Please enter a valid email
+											address for shipping updates.</div>
+										<div id="accordionExample2"></div>
+									</div>
+
+									<div class="col-4">
+										<label for="project" class="form-label">프로젝트</label>
+										<button type="button" onclick="addFile3();"
+											class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+											<i class="fa fa-plus" aria-hidden="true"></i>
+										</button>
+										<input type="text" class="form-control" id="address"
+											name="project" placeholder="프로젝트" required="">
+										<div class="invalid-feedback">Please enter your shipping
+											address.</div>
+										<div id="accordionExample3"></div>
+									</div>
+
+								</div>
+								<div class="row">
+									<div class="col-6">
+										<label for="skill" class="form-label">스킬</label> <input
+											type="text" class="form-control" id="skill" name="skill"
+											placeholder="스킬">
+									</div>
+
+									<div class="col-6">
+										<label for="comment" class="form-label">자유멘트</label>
+										<div class="form-group rounded-4">
+											<div id="comment" class="" name="comment"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="carouselNext">
+										<div class="carousel-item" id="carousel-item1">
+								<div class="center">
+									<div class="bar"></div>
+									<div class="title">Drop file to upload</div>
+									<div class="dropzone"
+										style="width: 700px; height: 400px; position: relative; z-index: 1;">
+										<div class="content">
+											<canvas id="canvas" width=700 height=400 style="z-index: 1;"></canvas>
+											<img src="" placeholder="ㅎㅇ" class="image-box" id="canvasImg"
+												width=700; height=400px; style="display: none;"> <span
+												class="filename"></span> <input type="file" multi="false"
+												id="file" class="input">
+										</div>
+									</div>
+								</div>
+	
+							</div> 
+					</div>
+
+				</div>
+				<div class="carousel-control">
+					<button class="carousel-control-prev left" type="button"
+						data-bs-target="#carouselExampleControls" data-bs-slide="prev"
+						onclick="carouselMinus()">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next right" type="button"
+						onclick="carouselAdd()" data-bs-target="#carouselExampleControls"
+						data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+				<input type="hidden" value="1" id="carouselCount"> <input
+					type="hidden" value="1" id="maxNum">
+			</div>
+			<input type="submit" class="submitBtn" value="업로드">
+		</form>
+	</div>
+	<!-- 모달 시작 -->
+	<div id="modal" class="modal fade">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content landingpage rounded-5 box">
+				<div class="modal-header p-5 pb-4 border-bottom-0"></div>
+
+				<div class="modal-body p-5 pt-0"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 파일 미리보기 -->
+	<script>
+const fileDOM = document.querySelector('#file');
+const previews = document.querySelectorAll('.image-box');
+
+fileDOM.addEventListener('change', () => {
+  const reader = new FileReader();
+  reader.onload = ({ target }) => {
+    previews[0].src = target.result;
+  };
+  reader.readAsDataURL(fileDOM.files[0]);
+});
+</script>
+	<script>
+        let editor = [];
+        ClassicEditor
+            .create(document.querySelector('#comment'))
+            .then(newEditor => {
+                editor[0] = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+	<script th:inline="javascript"> /*[- 파일 인덱스 처리용 전역 변수 -]*/
+	var carouselConunt = 1;
+    function addFile1() {
+        for (i = 0; i < 5; i++) {
+            if ($('input#fileCount' + i).val()) {
+                console.log(i, "해당 객체 존재함");
+
+            } else {
+                testCount = i;
+                let fileHtml = `
+					 <input type="text"
+					class="form-control" id="license${testCount}" name="license" placeholder="자격증">
+                `;
+                $("#accordionExample1").append(fileHtml);
+                testCount++;
+                break;
+            }
+        }
+    }
+
+    function addFile2() {
+        for (i = 0; i < 5; i++) {
+            if ($('input#fileCount' + i).val()) {
+                console.log(i, "해당 객체 존재함");
+
+            } else {
+                testCount = i;
+                let fileHtml = `
+					 <input type="text"
+					class="form-control" id="career${testCount}" name="career" placeholder="수상경력">
+                `;
+                $("#accordionExample2").append(fileHtml);
+                testCount++;
+                break;
+            }
+        }
+    }
+
+    function addFile3() {
+        for (i = 0; i < 5; i++) {
+            if ($('input#fileCount' + i).val()) {
+                console.log(i, "해당 객체 존재함");
+
+            } else {
+                testCount = i;
+                let fileHtml = `
+					 <input type="text"
+					class="form-control" id="project${testCount}" name="project" placeholder="프로젝트">
+                `;
+                $("#accordionExample3").append(fileHtml);
+                testCount++;
+                break;
+            }
+        }
+    function removeFile(elem) {
+
+        const prevTag = $(elem).prev().prop('tagName');
+        console.log(prevTag, elem);
+        if (prevTag === 'BUTTON') {
+            theEditor.setData('');
+            return false;
+        }
+        if (testCount === 0) {
+
+        } else {
+            $(elem).parent().remove();
+        }
+        testCount--;
+    }
+    </script>
+	<script type="text/javascript">
+	var count =  $('input#carouselCount').val();
+	var droppedFiles = false;
+	var fileName = '';
+	var $dropzone = $('.dropzone');
+	var $button = $('.upload-btn');
+	var uploading = false;
+	var $syncing = $('.syncing');
+	var $done = $('.done');
+	var $bar = $('.bar');
+	var timeOut;
+
+	$dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+	})
+		.on('dragover dragenter', function() {
+		$dropzone.addClass('is-dragover');
+	})
+		.on('dragleave dragend drop', function() {
+		$dropzone.removeClass('is-dragover');
+	})
+		.on('drop', function(e) {
+		droppedFiles = e.originalEvent.dataTransfer.files;
+		fileName = droppedFiles[0]['name'];
+		$('.filename').html(fileName);
+		$('.dropzone .upload').hide();
+	});
+
+	$button.bind('click', function() {
+		startUpload();
+	});
+
+	$("input:file").change(function (){
+		fileName = $(this)[0].files[0].name;
+		$('.filename').html(fileName);
+		$('.dropzone .upload').hide();
+	});
+
+	function startUpload() {
+		if (!uploading && fileName != '' ) {
+			uploading = true;
+			$button.html('Uploading...');
+			$dropzone.fadeOut();
+			$syncing.addClass('active');
+			$done.addClass('active');
+			$bar.addClass('active');
+			timeoutID = window.setTimeout(showDone, 3200);
+		}
+	}
+
+	function showDone() {
+		$button.html('Done');
+	}
+    </script>
+
+
+	<!-- 캔버스 -->
+	<script type="text/javascript">
+    var canvas = $('canvas');
+    var context = canvas[0].getContext('2d');
+    var mousedown = false;
+    var img = document.getElementById('canvasImg');
+    img.onload = function ()
+    {
+
+        
+        context.drawImage(img, 0, 0,700,400); //draw image into canvas;
+    }
+
+    var clicks = [];
+    function UploadImage() {
+    	  var imgfile = document.getElementById("finput");
+    	  inpImage.drawTo(canvas);
+    	}
+    function drawRectangle(){
+      context.beginPath();
+      context.rect(clicks[0].x, clicks[0].y, clicks[1].x-clicks[0].x, clicks[1].y-clicks[0].y);
+      context.fillStyle = 'rgba(100,100,100,0.5)';
+      context.fill();
+      context.strokeStyle = "#df4b26";
+      context.lineWidth = 1;
+      context.stroke();
+    };
+
+    function drawPoints(){
+      context.strokeStyle = "#df4b26"; 
+      context.lineJoin = "round"; 
+      context.lineWidth = 5; 
+                  
+      for(var i=0; i < clicks.length; i++){ 
+        context.beginPath(); 
+        context.arc(clicks[i].x, clicks[i].y, 3, 0, 2 * Math.PI, false); 
+        context.fillStyle = '#ffffff'; 
+        context.fill(); 
+        context.lineWidth = 5; 
+        context.stroke(); 
+      }
+    };
+      
+    function redraw(){ 
+      canvas.width = canvas.width; // Clears the canvas 
+      
+      context.drawImage(img, 0, 0,700,400); //draw image into canvas;
+        
+      drawRectangle();
+      drawPoints();
+    };
+
+    canvas
+      .mousedown(function (e) {
+        clicks[0] = {
+          x: e.offsetX,
+          y: e.offsetY
+        };
+        mousedown = true;
+      })
+      .mousemove(function (e) {
+        if (mousedown) {
+          clicks[1] = {
+            x: e.offsetX,
+            y: e.offsetY
+          };
+          redraw();
+        }
+      })
+      .mouseup(function (e) {
+        mousedown = false;
+        clicks[1] = {
+          x: e.offsetX,
+          y: e.offsetY
+        };
+        console.log(clicks[0].x,clicks[0].y,clicks[1].x,clicks[1].y);
+
+        let fileHtml = `
+        	<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal"
+        		 style="top:${clicks[0].x}px; right:${clicks[0].y}px; width:${(clicks[1].x - clicks[0].x)}px; height:+
+        		 "${(clicks[1].y-clicks[0].y)}px; position:absolute z-index:2;">CREATE</button>
+        `;
+			$("#carousel-item"+count).append(fileHtml);
+      })
+      .mouseleave(function (event) {
+        mousedown = false;
+      });
+    </script>
+	<script type="text/javascript">
+    
+    function carouselAdd() {
+    	var testCount = $('input#carouselCount').val();
+    	var maxNum = $('input#maxNum').val();
+                let fileHtml = `
+                <div class="carousel-item"  id = "carousel-item${testCount}">
+					<div class="center">
+					<div class="bar"></div>
+					<div class="title">Drop file to upload</div>
+					<div class="dropzone">
+						<div class="content">
+					<canvas id="canvas" width=700 height=400></canvas>
+							<img src="" placeholder="ㅎㅇ" 
+									class="image-box" id="canvasImg"width=700; height=400px; style="display: none;" > 
+									<span class="filename"></span>
+									 <input
+								type="file" id="file" class="input">
+						</div>
+					</div>
+				</div>
+
+			</div>	`;
+    			if(testCount==maxNum){
+    				$("#carouselNext").append(fileHtml);
+                    testCount++;
+                    maxNum++;
+                    let test = maxNum-1;
+    				$("#carousel-item"+test).remove();
+    		        $('#carousel-item' + text).addClass('active')
+    				}
+    			
+    			if(testCount<maxNum){
+    			testCount++;
+    			
+    			}
+    			
+                $('input#carouselCount').val(testCount);
+                $('input#maxNum').val(maxNum);
+
+        		console.log(testCount+","+maxNum);
+                carouselCount++;
+                                
+}
+    function carouselMinus(){
+    	var testCount = $('input#carouselCount').val();
+    	if(testCount>1)
+    	testCount--;
+    	console.log(testCount);
+    	$('input#carouselCount').val(testCount);
+    }
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,297 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,900);
+@font-face {
+    font-family: 'KOFIHDrLEEJWTTF-B';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/KOFIHDrLEEJWTTF-B.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+
+
+.slide-container {
+	height:1000px;
+	text-align: center;
+}
+.slide-container p{
+	font-family : 'KOFIHDrLEEJWTTF-B';
+    color: white;
+}
+
+.wrapper {
+	font-family : 'KOFIHDrLEEJWTTF-B';
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.clash-card {
+    background: white;
+    width: 900px;
+    margin: auto;
+    border-radius: 19px;
+    position: relative;
+    text-align: center;
+    box-shadow: -1px 15px 30px -12px black;
+    z-index: 9999;
+}
+.clash-main{
+    position: relative;
+    height: 480px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+.clash-card__image {
+    position: relative;
+    height: 230px;
+    margin-bottom: 35px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+
+.clash-card__level {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.clash-card__level--barbarian {
+    color: #EC9B3B;
+}
+
+.clash-card__level--archer {
+    color: #EE5487;
+}
+
+.clash-card__level--giant {
+    color: #F6901A;
+}
+
+.clash-card__level--goblin {
+    color: #82BB30;
+}
+
+.clash-card__level--wizard {
+    color: #4FACFF;
+}
+
+.clash-card__unit-name {
+    font-size: 26px;
+    color: black;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.clash-card__unit-stats--barbarian {
+    background: #EC9B3B;
+}
+.one-third {
+    border-right: 1px solid #BD7C2F;
+}
+
+.clash-card__unit-stats--archer {
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    background: #009cff;
+}
+.one-third {
+    border-right: 1px solid #D04976;
+}
+
+.clash-card__unit-stats--giant {
+    background: #F6901A;
+}
+.one-third {
+    border-right: 1px solid
+}
+
+.clash-card__unit-stats--goblin {
+    background: #82BB30;
+}
+
+.one-third {
+    border-right: 1px solid
+}
+
+
+.clash-card__unit-stats--wizard {
+    background: #4FACFF;
+}
+.one-third {
+    border-right: 1px solid;
+}
+
+
+.clash-card__unit-stats {
+
+    color: white;
+    font-weight: 700;
+}
+.one-third {
+    width: 33%;
+    float: left;
+    padding: 20px 15px;
+}
+
+sup {
+    position: absolute;
+    bottom: 4px;
+    font-size: 45%;
+    margin-left: 2px;
+}
+
+.stat {
+    position: relative;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.no-border {
+    border-right: none;
+}
+
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.slick-prev {
+    top:50%;
+    margin-left:-300px;
+    z-index: 999;
+}
+
+.slick-next {
+    top:50%;
+    z-index: 999;
+}
+
+section {
+    margin: auto;
+    width: 600px;
+    text-align: center;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    height: 300px;
+    border-radius: 8px;
+    background-color: #828282;
+    color: black;
+    user-select: none;
+    display: flex;
+    align-items: end;
+}
+
+section .info {
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    white-space: nowrap;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    width: 100%;
+    font-weight: bold;
+    position: relative;
+}
+
+ul.menu {
+    padding: 0;
+    margin: 0;
+    align-self: flex-start;
+    position: relative;
+    list-style-type: none;
+    font-size: 200%;
+}
+
+.triple-dot {
+    cursor: pointer;
+}
+
+.triple-dot:active::after, .triple-dot:focus::after {
+    content: "";
+    position: absolute;
+    left: -100%;
+    top: 10%;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: rgba(105, 105, 105, .5);
+}
+
+.menu .actions {
+    list-style-type: none;
+    margin: 0;
+    position: absolute;
+    top: 450%;
+    padding: 0;
+}
+
+.actions li {
+    margin-block: 25%;
+    border-left: 3px solid currentcolor;
+    padding-left: 10%;
+    text-align: center;
+    opacity: .5;
+    transition: opacity 250ms;
+    cursor: pointer;
+}
+
+.actions li:hover, .actions li:focus {
+    opacity: 1;
+}
+
+.actions li:hover::after, .actions li:focus::after {
+    content: "Tooltip";
+    position: absolute;
+    font-size: 50%;
+    background: dimgray;
+    padding: 10%;
+    border-radius: 6px;
+    color: white;
+}
+
+.actions .action-text {
+    font-size: 50%;
+}
+
+.info img {
+    border-radius: 50%;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 2.5%;
+}
+
+.info .sub {
+    align-self: flex-end;
+    padding: 10px 16px;
+    border-radius: 2px;
+    background-color: #c00;
+    font-weight: bold;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    margin-right: 5%;
+}
+
+.name a {
+    color: white;
+    text-decoration: none;
+}

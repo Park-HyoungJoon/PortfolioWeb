@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/mainLayout}">
+
+<th:block layout:fragment="content">
+	<div class="box">
+		<div class="infobox">
+			<p class="infobox-boldtext">배경부터 세세한 디자인 까지, 1초 완성 포트폴리오 제작</p>
+			<p class="infobox-slimtext">In aenean posuere lorem risus nec.
+				Tempor tincidunt aenean purus purus vestibulum nibh mi venenatis</p>
+			<div class="infobox-btnwrapper">
+				<button   sec:authorize = "isAnonymous()"  class="infobox-explorebtn selected" data-bs-toggle="modal" data-bs-target="#modal2">Get Started</button>
+					<button  sec:authorize = "isAuthenticated()"  class="infobox-explorebtn selected" onclick="location.href='pofo/add' ">Get Started</button>
+			</div>
+		</div>
+		
+		
+	</div>
+</th:block>
+</html>
+

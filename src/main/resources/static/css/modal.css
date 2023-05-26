@@ -1,0 +1,53 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:100,400,700);
+
+.modal .blurred-bg {
+  background-image: url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.modal .box {
+    overflow: hidden;
+    height: 550px;
+    left: -webkit-calc( 50% - 250px );
+    top: 20%;
+    position: absolute;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* padding: 20px; */
+    text-shadow: 0 1px 1px rgb(0 0 0 / 40%);
+    display: flex;
+    transition: box-shadow 0.3s ease;
+}
+.modal .box:active {
+  cursor: move;
+}
+.modal .box .content {
+  margin: auto;
+}
+.modal .btn {
+	border-color: white;
+	color: white;
+}
+
+.modal h1, h2, a, p {
+  color: white;
+  font-weight: 100;
+}
+.modal .tinted h1, .tinted h2, .tinted a, .tinted p {
+  color: black;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.modal p.related {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #444;
+}
+.modal p.related a {
+  font-weight: 700;
+  text-decoration: none;
+}
+.modal p.related a:hover {
+  text-decoration: underline;
+}
